@@ -1,7 +1,7 @@
 ---
-zsh_installs_path: '{{ ubuntu_users_installs }}/oh-my-zsh'
+zsh_installs_path: '{{ users_installs_dir }}/oh-my-zsh'
 zsh_repo_url: 'https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh'
 zsh_dircolors_url: 'https://raw.githubusercontent.com/seebi/dircolors-solarized/master/dircolors.ansi-dark'
-zshrc_file_path: '{{ ubuntu_user_home }}/.zshrc'
+zshrc_file_path: '{{ user_home }}/.zshrc'
 zsh_theme:
-zsh_theme_path: '{{ ubuntu_user_home }}/.oh-my-zsh/themes/{{ zsh_theme }}.zsh-theme'
+zsh_theme_path: '{{ user_home }}/.oh-my-zsh/themes/{{ zsh_theme }}.zsh-theme'

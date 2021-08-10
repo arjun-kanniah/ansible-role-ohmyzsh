@@ -57,3 +57,9 @@
     cmd: 'source {{ zshrc_file_path }}'
     args:
       executable: /usr/bin/zsh
+
+- name: "Set zsh as default shell for {{ ubuntu_user }}"
+  shell:
+    cmd: 'chsh -s $(which zsh)'
+    args:
+      executable: /usr/bin/zsh
