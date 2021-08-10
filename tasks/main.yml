@@ -1,0 +1,59 @@
+---
+- name: Ensure zsh is installed
+  package: 
+    name: zsh
+    state: present
+
+- name: Ensure oh-my-zsh installs directory exists
+  file:
+    path: '{{ zsh_installs_path }}'
+    state: directory
+    owner: '{{ ubuntu_uer }}'
+    group: '{{ ubuntu_uer }}'
+    mode: '0755'
+
+- name: Download oh-my-zsh install script
+  get_url:
+    url: '{{ zsh_repo_url }}'
+    dest: '{{ zsh_installs_path }}/install.sh'
+    mode: '0755'
+
+- name: Install oh-my-zsh
+  shell:
+    cmd: 'install.sh --unattended'
+    chdir: '{{ zsh_installs_path }}/'
+    args:
+      executable: /usr/bin/bash
+
+- name: Customize and Set Oh-My-Zsh Theme
+  shell:
+    cmd: '{{ item }}'
+    args:
+      executable: /usr/bin/bash
+  loop:
+   - 'sed -i "s/robbyrussell/agnoster/" {{ zshrc_file_path }}'
+   - 'sed -i "s/%n@%m/%n@%m-wsl/" {{ zsh_theme_path }}'
+   - 'sed -i "s/%~/%2~/" {{ zsh_theme_path }}'
+
+- name: Download oh-my-zsh dark dircolors
+  get_url:
+    url: '{{ zsh_dircolors_url }}'
+    dest: '{{ ubuntu_user_home }}/.dircolors'
+    mode: '0755'
+
+- name: Configure zsh to use dark dircolors
+  lineinfile:
+    path: '{{ zshrc_file_path }}'
+    line: 'eval `dircolors ~/.dircolors`'
+
+- name: "Reload profile for {{ ubuntu_user }}"
+  shell:
+    cmd: 'source {{ ubuntu_user_home }}/.profile'
+    args:
+      executable: /usr/bin/bash
+
+- name: "Activate zsh and reload zshrc for {{ ubuntu_user }}"
+  shell:
+    cmd: 'source {{ zshrc_file_path }}'
+    args:
+      executable: /usr/bin/zsh
