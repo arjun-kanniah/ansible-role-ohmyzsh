@@ -1,4 +1,6 @@
 ---
+user_installs_dir:
+user_home:
 zsh_installs_path: '{{ users_installs_dir }}/oh-my-zsh'
 zsh_repo_url: 'https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh'
 zsh_dircolors_url: 'https://raw.githubusercontent.com/seebi/dircolors-solarized/master/dircolors.ansi-dark'
