@@ -19,17 +19,15 @@
     mode: '0755'
 
 - name: Install oh-my-zsh
-  shell:
-    cmd: 'install.sh --unattended'
+  ansible.builtin.shell: 'install.sh --unattended'
+  args:
     chdir: '{{ zsh_installs_path }}/'
-    args:
-      executable: /usr/bin/bash
+    executable: /usr/bin/bash
 
 - name: Customize and Set Oh-My-Zsh Theme
-  shell:
-    cmd: '{{ item }}'
-    args:
-      executable: /usr/bin/bash
+  ansible.builtin.shell: '{{ item }}'
+  args:
+    executable: /usr/bin/bash
   loop:
    - 'sed -i "s/robbyrussell/agnoster/" {{ zshrc_file_path }}'
    - 'sed -i "s/%n@%m/%n@%m-wsl/" {{ zsh_theme_path }}'
@@ -47,19 +45,17 @@
     line: 'eval `dircolors ~/.dircolors`'
 
 - name: "Reload profile for {{ ubuntu_user }}"
-  shell:
-    cmd: 'source {{ ubuntu_user_home }}/.profile'
-    args:
-      executable: /usr/bin/bash
+  ansible.builtin.shell: 'source {{ ubuntu_user_home }}/.profile'
+  args:
+    executable: /usr/bin/bash
 
 - name: "Activate zsh and reload zshrc for {{ ubuntu_user }}"
-  shell:
-    cmd: 'source {{ zshrc_file_path }}'
-    args:
-      executable: /usr/bin/zsh
+  ansible.builtin.shell: 'source {{ zshrc_file_path }}'
+  args:
+    executable: /usr/bin/zsh
 
 - name: "Set zsh as default shell for {{ ubuntu_user }}"
-  shell:
-    cmd: 'chsh -s $(which zsh)'
-    args:
-      executable: /usr/bin/zsh
+  ansible.builtin.shell: 'chsh -s $(which zsh)'
+  args:
+    executable: /usr/bin/zsh
+  become: yes
