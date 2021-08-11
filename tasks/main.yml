@@ -64,7 +64,7 @@
         {{ item }}
       )
     insertbefore: 'source $ZSH/oh-my-zsh.sh'
-  loop: '{{ zsh_plugins_list }}'
+  with_items: '{{ zsh_plugins_list }}'
   
 - name: "Reload profile for {{ ubuntu_user }}"
   ansible.builtin.shell: 'source {{ ubuntu_user_home }}/.profile'
