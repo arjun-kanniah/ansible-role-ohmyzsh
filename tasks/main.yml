@@ -19,7 +19,7 @@
     mode: '0755'
 
 - name: Install oh-my-zsh
-  ansible.builtin.shell: 'install.sh --unattended'
+  ansible.builtin.shell: './install.sh --unattended'
   args:
     chdir: '{{ zsh_installs_path }}/'
     executable: /usr/bin/bash
