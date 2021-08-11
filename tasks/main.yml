@@ -19,9 +19,8 @@
     mode: '0755'
 
 - name: Install oh-my-zsh
-  ansible.builtin.shell: './install.sh --unattended'
+  ansible.builtin.shell: './{{ zsh_installs_path }}/install.sh --unattended'
   args:
-    chdir: '{{ zsh_installs_path }}/'
     executable: /usr/bin/sh
 
 - name: Customize and Set Oh-My-Zsh Theme
