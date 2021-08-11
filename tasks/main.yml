@@ -35,6 +35,7 @@
     url: '{{ zsh_dircolors_url }}'
     dest: '{{ ubuntu_user_home }}/.dircolors'
     mode: '0755'
+  become_user: '{{ ubuntu_user }}'
 
 - name: Configure zsh to use dark dircolors
   lineinfile:
@@ -46,6 +47,7 @@
     repo: '{{ zsh_custom_repo_url }}/{{ item }}.git'
     dest: '{{ zsh_plugins_path }}/{{ item }}'
   loop: '{{ zsh_plugins_list }}'
+  become_user: '{{ ubuntu_user }}'
 
 - name: Remove current zsh plugins
   lineinfile:
