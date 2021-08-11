@@ -55,16 +55,21 @@
     line: 'plugins=(git)'
     state: absent
 
-- name: Add plugins list to zshrc
+- name: Setup block structure for zsh plugins
   blockinfile:
     path: '{{ zshrc_file_path }}'
     block: |
       plugins=(
         git
-        {{ item }}
       )
     insertbefore: 'source $ZSH/oh-my-zsh.sh'
-  with_items: '{{ zsh_plugins_list }}'
+
+- name: Ensure additional plugins are added to zshrc
+  lineinfile:
+    path: '{{ zshrc_file_path }}'
+    line: '{{ item }}'
+    insertafter: 'git'
+  loop: '{{ zsh_plugins_list | to_nice_yaml(indent=5) }}'
   
 - name: "Reload profile for {{ ubuntu_user }}"
   ansible.builtin.shell: 'source {{ ubuntu_user_home }}/.profile'
@@ -77,7 +82,7 @@
     executable: /usr/bin/zsh
 
 - name: "Set zsh as default shell for {{ ubuntu_user }}"
-  ansible.builtin.shell: 'chsh -s $(which zsh) && zsh'
+  ansible.builtin.shell: 'chsh -s $(which zsh)'
   args:
     executable: /usr/bin/bash
   become: yes
