@@ -19,18 +19,16 @@
     mode: '0755'
 
 - name: Install oh-my-zsh
-  ansible.builtin.shell: './{{ zsh_installs_path }}/install.sh --unattended'
+  ansible.builtin.shell: 'sh {{ zsh_installs_path }}/install.sh --unattended'
   args:
     executable: /usr/bin/sh
+  become_user: '{{ ubuntu_user }}'
 
 - name: Customize and Set Oh-My-Zsh Theme
   ansible.builtin.shell: '{{ item }}'
   args:
     executable: /usr/bin/bash
-  loop:
-   - 'sed -i "s/robbyrussell/agnoster/" {{ zshrc_file_path }}'
-   - 'sed -i "s/%n@%m/%n@%m-wsl/" {{ zsh_theme_path }}'
-   - 'sed -i "s/%~/%2~/" {{ zsh_theme_path }}'
+  loop: '{{ custom_setting_list }}'
 
 - name: Download oh-my-zsh dark dircolors
   get_url:
@@ -43,6 +41,29 @@
     path: '{{ zshrc_file_path }}'
     line: 'eval `dircolors ~/.dircolors`'
 
+- name: Install zsh custom plugins
+  ansible.builtin.git: 
+    repo: '{{ zsh_custom_repo_url }}/{{ item }}.git'
+    dest: '{{ zsh_plugins_path }}/{{ item }}'
+  loop: '{{ zsh_plugins_list }}'
+
+- name: Remove current zsh plugins
+  lineinfile:
+    path: '{{ zshrc_file_path }}'
+    line: 'plugins=(git)'
+    state: absent
+
+- name: Add plugins list to zshrc
+  blockinfile:
+    path: '{{ zshrc_file_path }}'
+    block: |
+      plugins=(
+        git
+        {{ item }}
+      )
+    insertbefore: 'source $ZSH/oh-my-zsh.sh'
+  loop: '{{ zsh_plugins_list }}'
+  
 - name: "Reload profile for {{ ubuntu_user }}"
   ansible.builtin.shell: 'source {{ ubuntu_user_home }}/.profile'
   args:
@@ -54,7 +75,7 @@
     executable: /usr/bin/zsh
 
 - name: "Set zsh as default shell for {{ ubuntu_user }}"
-  ansible.builtin.shell: 'chsh -s $(which zsh)'
+  ansible.builtin.shell: 'chsh -s $(which zsh) && zsh'
   args:
-    executable: /usr/bin/zsh
+    executable: /usr/bin/bash
   become: yes
