@@ -22,7 +22,7 @@
   ansible.builtin.shell: './install.sh --unattended'
   args:
     chdir: '{{ zsh_installs_path }}/'
-    executable: /usr/bin/bash
+    executable: /usr/bin/sh
 
 - name: Customize and Set Oh-My-Zsh Theme
   ansible.builtin.shell: '{{ item }}'
