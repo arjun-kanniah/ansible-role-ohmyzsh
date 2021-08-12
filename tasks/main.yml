@@ -41,6 +41,7 @@
   lineinfile:
     path: '{{ zshrc_file_path }}'
     line: 'eval `dircolors ~/.dircolors`'
+    insertbefore: 'source $ZSH/oh-my-zsh.sh'
 
 - name: Install zsh custom plugins
   ansible.builtin.git: 
@@ -49,25 +50,30 @@
   loop: '{{ zsh_plugins_list }}'
   become_user: '{{ ubuntu_user }}'
 
-- name: Remove current zsh plugins
+- name: Enable installed plugins
   lineinfile:
     path: '{{ zshrc_file_path }}'
-    line: 'plugins=(git)'
-    state: absent
+    line: 'plugins=({{ item }}'
+    insertbefore: '^source'
+  loop: '{{ zsh_plugins_list }}'
 
-- name: Setup block structure for zsh plugins
+- name: Add aliases to zsh
   blockinfile:
-    path: '{{ zshrc_file_path }}'
+    path: '{{ bash_alias_file_path }}'
     block: |
-      plugins=(
-        git
-        zsh-autosuggestions
-        zsh-syntax-highlighting
-      )
-    insertbefore: 'source $ZSH/oh-my-zsh.sh'
+      alias gcl="git clone"
+      alias gbr="git branch"
+      alias gco="git chekout"
+      alias gad="git add --all"
+      alias gcm="git commit -m"
+      alias gpl="git pull"
+      alias gps="git push"
+      alias gst="git status"
+      alias ghst='git log --pretty=format:"%h %ad | %s%d [%an]" --graph --date=short'
+    insertafter: 'EOF'
 
 - name: "Set zsh as default shell for {{ ubuntu_user }}"
   ansible.builtin.shell: 'chsh -s $(which zsh)'
   args:
-    executable: /usr/bin/zsh
+    executable: /usr/bin/bash
   become: yes
