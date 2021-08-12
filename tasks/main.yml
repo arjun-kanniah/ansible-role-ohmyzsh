@@ -64,12 +64,16 @@
       )
     insertbefore: 'source $ZSH/oh-my-zsh.sh'
 
+- name: Concatenate list of zsh plugins to a variable
+  set_fact:
+    zsh_plugins: "{{ zsh_plugins_list | join('\n') }}"
+
 - name: Ensure additional plugins are added to zshrc
   lineinfile:
     path: '{{ zshrc_file_path }}'
     line: '{{ item }}'
     insertafter: 'git'
-  with_items: '{{ zsh_plugins_list | to_nice_yaml(indent=5) }}'
+  with_items: '{{ zsh_plugins | to_nice_yaml(indent=5) }}'
 
 - name: "Set zsh as default shell for {{ ubuntu_user }}"
   ansible.builtin.shell: 'chsh -s $(which zsh)'
