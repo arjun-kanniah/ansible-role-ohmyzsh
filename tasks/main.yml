@@ -69,5 +69,5 @@
 - name: "Set zsh as default shell for {{ ubuntu_user }}"
   ansible.builtin.shell: 'chsh -s $(which zsh)'
   args:
-    executable: /usr/bin/bash
+    executable: /usr/bin/zsh
   become: yes
