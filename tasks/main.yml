@@ -41,7 +41,7 @@
   lineinfile:
     path: '{{ zshrc_file_path }}'
     line: 'eval `dircolors ~/.dircolors`'
-    insertbefore: 'source $ZSH/oh-my-zsh.sh'
+    insertbefore: '^source $ZSH/oh-my-zsh.sh'
 
 - name: Install zsh custom plugins
   ansible.builtin.git: 
@@ -53,13 +53,13 @@
 - name: Enable installed plugins
   lineinfile:
     path: '{{ zshrc_file_path }}'
-    line: 'plugins=({{ item }}'
-    insertbefore: '^source'
+    line: 'plugins=({{ item }})'
+    insertafter: '^plugins=(git)'
   loop: '{{ zsh_plugins_list }}'
 
 - name: Add aliases to zsh
   blockinfile:
-    path: '{{ bash_alias_file_path }}'
+    path: '{{ zshrc_file_path }}'
     block: |
       alias gcl="git clone"
       alias gbr="git branch"
