@@ -70,16 +70,6 @@
     line: '{{ item }}'
     insertafter: 'git'
   loop: '{{ zsh_plugins_list | to_nice_yaml(indent=5) }}'
-  
-- name: "Reload profile for {{ ubuntu_user }}"
-  ansible.builtin.shell: 'source {{ ubuntu_user_home }}/.profile'
-  args:
-    executable: /usr/bin/bash
-
-- name: "Activate zsh and reload zshrc for {{ ubuntu_user }}"
-  ansible.builtin.shell: 'source {{ zshrc_file_path }}'
-  args:
-    executable: /usr/bin/zsh
 
 - name: "Set zsh as default shell for {{ ubuntu_user }}"
   ansible.builtin.shell: 'chsh -s $(which zsh)'
