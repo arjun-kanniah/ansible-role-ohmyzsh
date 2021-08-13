@@ -13,6 +13,7 @@ zsh_theme_path: '{{ user_home }}/.oh-my-zsh/themes/{{ zsh_theme }}.zsh-theme'
 
 zsh_plugins_path: '{{ user_home }}/.oh-my-zsh/custom/plugins'
 zsh_custom_repo_url: 'https://github.com/zsh-users'
+
 zsh_custom_plugins:
   - zsh-autosuggestions
   - zsh-syntax-highlighting
