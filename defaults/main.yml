@@ -2,17 +2,28 @@
 user:
 user_installs_dir:
 user_home:
+
 zsh_installs_path: '{{ users_installs_dir }}/oh-my-zsh'
 zsh_repo_url: 'https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh'
 zsh_dircolors_url: 'https://raw.githubusercontent.com/seebi/dircolors-solarized/master/dircolors.ansi-dark'
 zshrc_file_path: '{{ user_home }}/.zshrc'
+
 zsh_theme:
 zsh_theme_path: '{{ user_home }}/.oh-my-zsh/themes/{{ zsh_theme }}.zsh-theme'
+
 zsh_plugins_path: '{{ user_home }}/.oh-my-zsh/custom/plugins'
 zsh_custom_repo_url: 'https://github.com/zsh-users'
-zsh_plugins_list:
+zsh_custom_plugins:
   - zsh-autosuggestions
   - zsh-syntax-highlighting
+
+zsh_native_plugins:
+  - git
+  - history
+  - sudo
+  - web-search
+  - zsh_reload
+
 custom_setting_list:
   - 'sed -i "s/robbyrussell/agnoster/" {{ zshrc_file_path }}'
   - 'sed -i "s/%n@%m/%n@%m-wsl/" {{ zsh_theme_path }}'

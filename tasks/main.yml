@@ -47,16 +47,20 @@
   ansible.builtin.git: 
     repo: '{{ zsh_custom_repo_url }}/{{ item }}.git'
     dest: '{{ zsh_plugins_path }}/{{ item }}'
-  loop: '{{ zsh_plugins_list }}'
+  loop: '{{ zsh_custom_plugins }}'
   become_user: '{{ ubuntu_user }}'
 
-- name: Enable installed plugins
+- name: Merge plugins list
+  set_fact:
+    zsh_plugins_list: '{{ zsh_native_plugins + zsh_custom_plugins }}'
+
+- name: Enable all plugins
   lineinfile:
     path: '{{ zshrc_file_path }}'
     line: 'plugins=({{ item }})'
     insertafter: '^plugins'
   loop: '{{ zsh_plugins_list }}'
-
+  
 - name: Add aliases to zsh
   blockinfile:
     path: '{{ zshrc_file_path }}'
