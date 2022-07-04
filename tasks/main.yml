@@ -74,6 +74,11 @@
       alias gps="git push"
       alias gst="git status"
       alias ghst='git log --pretty=format:"%h %ad | %s%d [%an]" --graph --date=short'
+      alias gstsh="git stash"
+      alias python="python3"
+      alias pip="pip3"
+      alias kct="kubectl"
+      alias mnkb="minikube"
     insertafter: 'EOF'
 
 - name: "Set zsh as default shell for {{ ubuntu_user }}"
