@@ -77,7 +77,7 @@
       alias gstsh="git stash"
       alias python="python3"
       alias pip="pip3"
-      alias kct="kubectl"
+      alias kc="kubectl"
       alias mnkb="minikube"
     insertafter: 'EOF'
 
