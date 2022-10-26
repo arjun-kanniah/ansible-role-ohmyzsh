@@ -78,7 +78,7 @@
       alias python="python3"
       alias pip="pip3"
       alias kc="kubectl"
-      alias mnkb="minikube"
+      alias mkb="minikube"
     insertafter: 'EOF'
 
 - name: "Set zsh as default shell for {{ ubuntu_user }}"
