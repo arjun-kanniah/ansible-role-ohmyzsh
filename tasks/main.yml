@@ -21,13 +21,13 @@
 - name: Install oh-my-zsh
   ansible.builtin.shell: 'sh {{ zsh_installs_path }}/install.sh --unattended'
   args:
-    executable: /usr/bin/sh
+    executable: /bin/sh
   become_user: '{{ ubuntu_user }}'
 
 - name: Customize and Set Oh-My-Zsh Theme
   ansible.builtin.shell: '{{ item }}'
   args:
-    executable: /usr/bin/bash
+    executable: /bin/bash
   loop: '{{ custom_setting_list }}'
 
 - name: Download oh-my-zsh dark dircolors
@@ -84,5 +84,5 @@
 - name: "Set zsh as default shell for {{ ubuntu_user }}"
   ansible.builtin.shell: 'chsh -s $(which zsh)'
   args:
-    executable: /usr/bin/bash
+    executable: /bin/bash
   become: yes
