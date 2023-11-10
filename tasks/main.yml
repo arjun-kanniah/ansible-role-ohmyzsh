@@ -79,7 +79,6 @@
       alias pip="pip3"
       alias kc="kubectl"
       alias mkb="minikube"
-      alias jupyter-notebook='nohup /usr/local/bin/jupyter-notebook --no-browser --notebook-dir="~/jupyter_home" &!'
     insertafter: 'EOF'
 
 - name: "Set zsh as default shell for {{ ubuntu_user }}"
